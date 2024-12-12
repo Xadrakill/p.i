@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Explorar Viagens</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        /* Estilos para o card expandido */
+        .card.expanded {
+            transform: scale(1.1); /* Aumenta o tamanho do card */
+            transition: transform 0.3s ease-in-out;
+            z-index: 1; /* Garante que o card expandido fique acima dos outros */
+        }
+
+        .card-body.expanded .descricao {
+            display: block;
+        }
+
+        /* Inicialmente, escondemos a descrição e o preço */
+        .card-body .descricao,
+        .card-body .preco {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="#">SOFTWARE - INFOH</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link active" href="/viagens/">Explorar Viagens</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="/perfil/">Meu Perfil</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="/sobre_nos/">Sobre Nós</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container mt-5">
+        <h1 class="text-center mb-4">Explorar Viagens</h1>
+        <div class="row">
+            {% for viagem in viagens %}
+            <div class="col-md-4 mb-4">
+                <div class="card" id="card-{{ viagem.id }}">
+                    <img src="{{ viagem.imagem.url }}" class="card-img-top" alt="Imagem de {{ viagem.titulo }}">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ viagem.titulo }}</h5>
+                        <p class="card-text"><strong>Pais:</strong> {{ viagem.pais.nome }}</p>
+                        <p class="card-text descricao">{{ viagem.descricao }}</p> <!-- Descrição oculta inicialmente -->
+                        <p class="card-text preco"><strong>Preço:</strong> R$ {{ viagem.preco }}</p> <!-- Preço oculto inicialmente -->
+                        <button class="btn btn-primary" onclick="toggleCardDetails('{{ viagem.id }}')">Ver Detalhes</button>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+
+    <script>
+        function toggleCardDetails(id) {
+            // Obtemos o card e o corpo do card
+            const card = document.getElementById('card-' + id);
+            const cardBody = card.querySelector('.card-body');
+            
+            // Verifica se o card já está expandido
+            const isExpanded = card.classList.contains('expanded');
+            
+            if (isExpanded) {
+                // Se o card estiver expandido, removemos a classe de expansão
+                card.classList.remove('expanded');
+                // Escondemos a descrição e o preço
+                cardBody.querySelector('.descricao').style.display = 'none';
+                cardBody.querySelector('.preco').style.display = 'none';
+            } else {
+                // Caso contrário, adicionamos a classe de expansão
+                card.classList.add('expanded');
+                // Exibimos a descrição e o preço
+                cardBody.querySelector('.descricao').style.display = 'block';
+                cardBody.querySelector('.preco').style.display = 'block';
+            }
+        }
+    </script>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
