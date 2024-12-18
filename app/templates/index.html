@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Página de Login</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet"> <!-- Adicionando o Bootstrap Icons -->
+    <style>
+        body {
+            background: #f0f2f5; /* Cor de fundo mais suave e elegante */
+            font-family: 'Arial', sans-serif;
+            color: #333; /* Texto em cinza escuro para contraste suave */
+        }
+
+        .navbar {
+            background-color: #343a40; /* Navbar com fundo escuro */
+        }
+
+        .navbar-brand {
+            color: #fff;
+        }
+
+        .container {
+            margin-top: 100px;
+        }
+
+        .login-card {
+            background: #fff; /* Fundo branco para o card */
+            border-radius: 10px;
+            padding: 30px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .form-control {
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+        }
+
+        .btn-primary {
+            border-radius: 8px;
+            background-color: #007bff; /* Cor azul para os botões */
+            border: none;
+            padding: 10px 20px;
+            width: 100%;
+            font-size: 16px;
+            transition: background-color 0.3s;
+        }
+
+        .btn-primary:hover {
+            background-color: #0056b3; /* Azul mais escuro no hover */
+        }
+
+        hr {
+            border: 1px solid #ddd;
+        }
+
+        .footer-text {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .footer-text a {
+            color: #007bff;
+            text-decoration: none;
+        }
+
+        .footer-text a:hover {
+            text-decoration: underline;
+        }
+
+        /* Mensagem de erro */
+        .error-message {
+            display: flex;
+            align-items: center;
+            background-color: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+            border-radius: 5px;
+            padding: 15px;
+            margin-bottom: 20px;
+        }
+
+        .error-message i {
+            margin-right: 10px;
+            font-size: 20px;
+        }
+
+        /* Nova classe para mensagens de sucesso */
+        .success-message {
+            display: flex;
+            align-items: center;
+            background-color: #d4edda;  /* Fundo verde claro */
+            color: #155724;  /* Texto verde escuro */
+            border: 1px solid #c3e6cb;  /* Borda verde */
+            border-radius: 5px;
+            padding: 15px;
+            margin-bottom: 20px;
+        }
+
+        .success-message i {
+            margin-right: 10px;
+            font-size: 20px;
+        }
+
+        /* Rodapé */
+        footer {
+            background-color: #343a40;
+            color: #fff;
+            padding: 20px;
+            text-align: center;
+            margin-top: 40px;
+        }
+
+        footer a {
+            color: #007bff;
+            text-decoration: none;
+        }
+
+        footer a:hover {
+            text-decoration: underline;
+        }
+
+        /* Estilos para o ícone da senha */
+        .password-toggle {
+            position: absolute;
+            right: 15px;
+            top: 35px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+
+    <nav class="navbar navbar-expand-lg navbar-dark">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="#">Viaje +</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+        </div>
+    </nav>
+
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-6 col-lg-4 login-card">
+                <h2 class="text-center mb-4" style="color: #333;">Login</h2>
+
+                {% if messages %}
+                <div>
+                    {% for message in messages %}
+                        <div class="{% if message.level == 1 %}error-message{% else %}success-message{% endif %}">
+                            <i class="bi bi-exclamation-circle"></i>
+                            <strong>{{ message }}</strong>
+                        </div>
+                    {% endfor %}
+                </div>
+                {% endif %}
+
+                <form action="/" method="post">
+                    {% csrf_token %}
+                    <div class="mb-3">
+                        <label for="username" class="form-label">Nome de usuário</label>
+                        <input type="text" class="form-control" id="username" name="username" required>
+                    </div>
+                    <div class="mb-3 position-relative">
+                        <label for="password" class="form-label">Senha</label>
+                        <input type="password" class="form-control" id="password" name="password" required>
+                        <i id="toggle-password" class="bi bi-eye password-toggle" onclick="togglePassword()"></i>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Entrar</button>
+                </form>
+                
+                <hr>
+                <div class="footer-text">
+                    <h5 style="color: #333;">Não tem uma conta? <a href="/criar-conta/">Crie uma conta</a></h5>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+
+    <!-- Rodapé -->
+    <footer>
+        <p>&copy; 2024 VIAJE +. Todos os direitos reservados.</p>
+        <p>
+            <a href="/termos/">Termos de Serviço</a> | 
+            <a href="/privacidade/">Política de Privacidade</a> | 
+            <a href="/ajuda/">Ajuda</a>
+        </p>
+    </footer>
+
+    <script>
+        // Função para alternar entre mostrar e esconder a senha
+        function togglePassword() {
+            var passwordField = document.getElementById('password');
+            var icon = document.getElementById('toggle-password');
+            if (passwordField.type === 'password') {
+                passwordField.type = 'text';
+                icon.classList.remove('bi-eye');
+                icon.classList.add('bi-eye-slash');
+            } else {
+                passwordField.type = 'password';
+                icon.classList.remove('bi-eye-slash');
+                icon.classList.add('bi-eye');
+            }
+        }
+    </script>
+
+</body>
+</html>

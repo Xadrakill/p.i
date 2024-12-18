@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Viaje + - Início</title>
+    <!-- Link para o Bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+    
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            background-color: #f4f4f9; /* Fundo mais claro */
+            color: #333; /* Texto em cinza escuro */
+        }
+    
+        /* Navbar */
+        nav {
+            background-color: #0056b3; /* Azul escuro */
+        }
+    
+        nav .navbar-nav .nav-link {
+            color: #fff !important;
+            font-size: 1.1em;
+            padding: 15px 20px;
+        }
+    
+        nav .navbar-nav .nav-link:hover {
+            color: #ffcc00 !important; /* Cor de destaque amarela */
+        }
+    
+        .navbar-toggler-icon {
+            background-color: #fff;
+        }
+    
+        /* Hero Section */
+        .hero {
+            background: url('https://cdn.pixabay.com/photo/2019/01/17/17/46/map-3930789_1280.jpg') center/cover no-repeat;
+            height: 500px;
+            position: relative;
+            color: #fff;
+            border-bottom: 4px solid rgb(0, 17, 255); /* Divisão azul */
+        }
+    
+        .hero-content {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center;
+        }
+    
+        .hero-content h1 {
+            font-size: 3.5em;
+            margin-bottom: 20px;
+            color: #007BFF; /* Novo tom de azul */
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
+        }
+    
+        .hero-content p {
+            font-size: 1.4em;
+            margin-bottom: 20px;
+            color: #0056b3; /* Tom de azul mais escuro */
+        }
+    
+        .btn-custom {
+            display: inline-block;
+            background-color: #ffcc00; /* Cor amarela */
+            color: #000;
+            padding: 12px 30px;
+            text-decoration: none;
+            border-radius: 5px;
+            font-size: 1.2em;
+        }
+    
+        .btn-custom:hover {
+            background-color: #e6b800; /* Cor amarela mais escura */
+        }
+    
+        /* Pacotes em Destaque Section */
+        .highlighted-packages {
+            background-color: #fff; /* Cor de fundo branca */
+            padding: 60px 0;
+            text-align: center;
+            border-top: 4px solid #0056b3; /* Divisão azul escuro */
+        }
+    
+        .highlighted-packages h2 {
+            font-size: 2.8em;
+            margin-bottom: 40px;
+            color: #0056b3; /* Azul escuro */
+            font-weight: bold;
+        }
+    
+        .card-deck {
+            display: flex;
+            justify-content: space-evenly;
+            flex-wrap: wrap;
+            gap: 30px;
+            margin-top: 30px;
+        }
+    
+        .card {
+            width: 18rem;
+            border-radius: 10px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease;
+        }
+    
+        .card:hover {
+            transform: translateY(-10px);
+        }
+    
+        .card img {
+            height: 200px;
+            object-fit: cover;
+            border-top-left-radius: 10px;
+            border-top-right-radius: 10px;
+        }
+    
+        .card-body {
+            padding: 20px;
+            text-align: left;
+        }
+    
+        .card-body h5 {
+            font-size: 1.6em;
+            color: #333;
+            margin-bottom: 15px;
+        }
+    
+        .card-body p {
+            color: #555;
+            font-size: 1.1em;
+            margin-bottom: 20px;
+        }
+    
+        .card-body .btn-primary {
+            background-color: #0056b3;
+            color: white;
+            border-radius: 5px;
+            text-decoration: none;
+            padding: 8px 15px;
+        }
+    
+        /* Lore Section */
+        .lore {
+            background-color: #f4f4f9; /* Cor de fundo mais clara */
+            padding: 50px 0;
+            border-top: 4px solid #0056b3; /* Divisão azul escuro */
+        }
+    
+        .lore h2 {
+            font-size: 2.8em;
+            text-align: center;
+            margin-bottom: 30px;
+            color: #0056b3; /* Azul escuro */
+        }
+    
+        .lore p {
+            font-size: 1.2em;
+            text-align: center;
+            max-width: 800px;
+            margin: 0 auto 20px;
+            color: #333;
+        }
+    
+        .lore img {
+            max-width: 100%;
+            height: auto;
+            display: block;
+            margin: 30px auto;
+            border-radius: 10px;
+        }
+    
+        /* Footer */
+        footer {
+            background-color: #222; /* Cor de fundo cinza chumbo */
+            color: #fff;
+            padding: 20px 0;
+            text-align: center;
+            border-top: 4px solid #ffcc00; /* Divisão amarela */
+        }
+    
+        footer p {
+            margin: 5px 0;
+        }
+    
+        footer a {
+            color: #ffcc00; /* Cor amarela */
+            text-decoration: none;
+        }
+    
+        footer a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="#">VIAJE +</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link active" href="/inicio/">Início</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/viagens/">Explorar Viagens</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/contato/">Contato</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/avaliacoes/">Feedback</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Foto logo abaixo do nav -->
+    <section class="hero">
+        <div class="hero-content">
+            <h1>Bem-vindo ao Viaje +</h1>
+            <p>Descubra as melhores opções de pacotes prontos para sua viagem ideal!</p>
+            <a href="/viagens/" class="btn btn-custom">Ver Pacotes</a>
+        </div>
+    </section>
+
+    <!-- Lore Section -->
+    <section class="lore">
+        <h2>Sobre o Viaje +</h2>
+        <p>O Viaje + foi criado com o objetivo de tornar o planejamento de viagens mais simples e acessível para todos. Acreditamos que viajar é uma das experiências mais enriquecedoras da vida, e queremos proporcionar aos nossos usuários as melhores opções de pacotes e experiências.</p>
+        <p>Com um sistema intuitivo, você pode explorar pacotes prontos para diversos destinos e até mesmo personalizar sua viagem de acordo com suas preferências, garantindo que cada viagem seja única e memorável.</p>
+    </section>
+
+    <!-- Pacotes em Destaque -->
+    <section class="highlighted-packages">
+        <h2>Pacotes em Destaque</h2>
+        <div class="card-deck">
+            <!-- Pacote 1 -->
+            <div class="card">
+                <img src="/media/paris.jpg" class="card-img-top" alt="Pacote 1">
+                <div class="card-body">
+                    <h5 class="card-title">Paris - A Cidade Luz</h5>
+                    <p class="card-text">Explore os encantos de Paris, com visita aos pontos turísticos mais famosos como a Torre Eiffel e o Louvre.</p>
+                    <a href="#" class="btn btn-primary">Saiba Mais</a>
+                </div>
+            </div>
+            <!-- Pacote 2 -->
+            <div class="card">
+                <img src="/media/maldivas.jpg" class="card-img-top" alt="Pacote 2">
+                <div class="card-body">
+                    <h5 class="card-title">Ilhas Maldivas - Paraíso Tropical</h5>
+                    <p class="card-text">Relaxe nas águas cristalinas das Maldivas e aproveite dias tranquilos em um resort de luxo.</p>
+                    <a href="#" class="btn btn-primary">Saiba Mais</a>
+                </div>
+            </div>
+            <!-- Pacote 3 -->
+            <div class="card">
+                <img src="/media/safari.jpeg" class="card-img-top" alt="Pacote 3">
+                <div class="card-body">
+                    <h5 class="card-title">Safari na África</h5>
+                    <p class="card-text">Embarque em uma aventura no coração da África e veja os grandes animais selvagens de perto.</p>
+                    <a href="#" class="btn btn-primary">Saiba Mais</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <p>&copy; 2024 SOFTWARE - LUIZ. Todos os direitos reservados.</p>
+        <p>
+            <a href="/contato/">Contato</a> | 
+            <a href="/politica-de-privacidade/">Política de Privacidade</a> | 
+            <a href="/sobre/">Sobre Nós</a>
+        </p>
+    </footer>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

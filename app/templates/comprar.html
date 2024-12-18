@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Comprar Viagem</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <style>
+        /* Estilo geral */
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f4f4f9;
+            color: #333;
+        }
+
+        h1 {
+            text-align: center;
+            font-size: 2.5em;
+            margin-top: 30px;
+            color: #0056b3;
+            font-weight: bold;
+        }
+
+        /* Cartão */
+        .card {
+            max-width: 700px;
+            margin: 40px auto;
+            border-radius: 12px;
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+            overflow: hidden;
+        }
+
+        .card-img-top {
+            width: 100%;
+            max-height: 300px;
+            object-fit: cover;
+        }
+
+        .card-body {
+            background-color: #fff;
+            padding: 2.5rem;
+        }
+
+        .card-title {
+            color: #0056b3;
+            font-size: 1.8em;
+            margin-bottom: 20px;
+            font-weight: bold;
+        }
+
+        .card-text strong, .hotel-info strong {
+            color: #007bff; /* Cor azul para labels */
+        }
+
+        .hotel-info h3 {
+            color: #0056b3;
+            margin-top: 20px;
+            font-size: 1.4em;
+        }
+
+        /* Botão */
+        .btn-primary {
+            background-color: #0056b3;
+            color: #fff;
+            font-size: 1.1em;
+            padding: 12px 20px;
+            border: none;
+            border-radius: 8px;
+            width: 100%;
+            transition: background-color 0.3s, transform 0.2s;
+        }
+
+        .btn-primary:hover {
+            background-color: #003f8a;
+            transform: scale(1.03);
+        }
+
+        /* Select */
+        .form-select {
+            border-radius: 8px;
+            padding: 8px;
+            transition: border-color 0.3s;
+        }
+
+        .form-select:focus {
+            border-color: #007bff;
+            box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+        }
+
+        /* Mensagem de sucesso */
+        .success-message {
+            margin-top: 20px;
+            padding: 15px;
+            border-radius: 5px;
+            background-color: #d4edda;
+            color: #155724;
+            font-weight: bold;
+            text-align: center;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Rodapé */
+        footer {
+            background-color: #343a40;
+            color: #fff;
+            padding: 15px;
+            text-align: center;
+        }
+
+        footer a {
+            color: #007bff;
+            text-decoration: none;
+        }
+
+        footer a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Comprar Viagem</h1>
+        <div class="card">
+            <img src="{{ viagem.imagem.url }}" class="card-img-top" alt="Imagem de {{ viagem.titulo }}">
+            <div class="card-body">
+                <h3 class="card-title">{{ viagem.titulo }}</h3>
+                <p class="card-text"><strong>Descrição:</strong> {{ viagem.descricao }}</p>
+                <p class="card-text"><strong>Preço:</strong> R$ {{ viagem.preco }}</p>
+                <p class="card-text"><strong>País:</strong> {{ viagem.pais.nome }}</p>
+                <p class="card-text"><strong>Cidade:</strong> {{ viagem.cidade.nome }}</p>
+
+                <!-- Informações do Hotel -->
+                {% if viagem.hotel %}
+                <div class="hotel-info mt-4">
+                    <h3><strong>Informações do Hotel</strong></h3>
+                    <p><strong>Nome:</strong> {{ viagem.hotel.nome }}</p>
+                    <p><strong>Descrição:</strong> {{ viagem.hotel.descricao }}</p>
+                    <p><strong>Endereço:</strong> {{ viagem.hotel.endereco }}, {{ viagem.hotel.cidade }} - {{ viagem.hotel.estado }}</p>
+                    <p><strong>Categoria:</strong> 
+                        {% if viagem.hotel.categoria == "economico" %}
+                            Econômico
+                        {% elif viagem.hotel.categoria == "luxo" %}
+                            Luxo
+                        {% else %}
+                            Médio
+                        {% endif %}
+                    </p>
+                </div>
+                {% else %}
+                <p class="text-danger"><strong>Sem hotel associado a esta viagem.</strong></p>
+                {% endif %}
+
+                <!-- Pagamento -->
+                <div class="mt-4">
+                    <label for="paymentMethod" class="form-label"><strong>Escolha o modo de pagamento:</strong></label>
+                    <select id="paymentMethod" class="form-select" onchange="handlePaymentMethod({{ viagem.preco }})">
+                        <option value="">Selecione</option>
+                        <option value="cartaoCredito">Cartão de Crédito</option>
+                        <option value="pix">PIX</option>
+                        <option value="boleto">Boleto Bancário</option>
+                    </select>
+                </div>
+                <div id="installmentsSection" style="display: none;" class="mt-3">
+                    <label for="installments" class="form-label"><strong>Parcelas:</strong></label>
+                    <select id="installments" class="form-select"></select>
+                </div>
+                <button class="btn btn-primary" onclick="finalizarCompra()">Finalizar Compra</button>
+
+                <div id="successMessage" class="success-message" style="display: none;"></div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function handlePaymentMethod(preco) {
+            const paymentMethod = document.getElementById('paymentMethod').value;
+            const installmentsSection = document.getElementById('installmentsSection');
+            const installmentsSelect = document.getElementById('installments');
+
+            if (paymentMethod === 'cartaoCredito') {
+                installmentsSection.style.display = 'block';
+                installmentsSelect.innerHTML = '';
+                for (let i = 1; i <= 12; i++) {
+                    const parcela = (preco / i).toFixed(2);
+                    const option = document.createElement('option');
+                    option.value = i;
+                    option.textContent = `${i}x de R$ ${parcela}`;
+                    installmentsSelect.appendChild(option);
+                }
+            } else {
+                installmentsSection.style.display = 'none';
+            }
+        }
+
+        function finalizarCompra() {
+            const paymentMethod = document.getElementById('paymentMethod').value;
+            const installments = document.getElementById('installments').value;
+            const successMessage = document.getElementById('successMessage');
+
+            if (!paymentMethod) {
+                alert('Por favor, selecione um método de pagamento.');
+                return;
+            }
+
+            let message = '<strong>Compra realizada com sucesso!</strong><br>Método de pagamento: ';
+            message += paymentMethod === 'cartaoCredito' 
+                ? `Cartão de Crédito (${installments}x)`
+                : paymentMethod === 'pix' ? 'PIX' : 'Boleto Bancário';
+
+            successMessage.innerHTML = message;
+            successMessage.style.display = 'block';
+
+            setTimeout(() => window.location.href = '/avaliacoes/', 3000);
+        }
+    </script>
+
+    <footer>
+        <p>&copy; 2024 VIAJE +. Todos os direitos reservados.</p>
+        <p>
+            <a href="/termos/">Termos de Serviço</a> | 
+            <a href="/privacidade/">Política de Privacidade</a> | 
+            <a href="/ajuda/">Ajuda</a>
+        </p>
+    </footer>
+</body>
+</html>

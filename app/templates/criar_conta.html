@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Criar Conta</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            background: #f0f2f5; /* Cor de fundo suave e elegante */
+            font-family: 'Arial', sans-serif;
+            color: #333; /* Texto em cinza escuro */
+        }
+
+        .container {
+            margin-top: 100px;
+        }
+
+        .form-control {
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+        }
+
+        .btn-primary {
+            border-radius: 8px;
+            background-color: #007bff; /* Azul para os botões */
+            border: none;
+            padding: 10px 20px;
+            width: 100%;
+            font-size: 16px;
+            transition: background-color 0.3s;
+        }
+
+        .btn-primary:hover {
+            background-color: #0056b3; /* Azul mais escuro no hover */
+        }
+
+        hr {
+            border: 1px solid #ddd;
+        }
+
+        .footer-text {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .footer-text a {
+            color: #007bff;
+            text-decoration: none;
+        }
+
+        .footer-text a:hover {
+            text-decoration: underline;
+        }
+
+        .alert {
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1 class="text-center mb-4" style="color: #333;">Criar Conta</h1>
+
+        <!-- Exibe mensagens -->
+        {% if messages %}
+        <div>
+            {% for message in messages %}
+            <div class="alert alert-{{ message.tags }}" role="alert">
+                {{ message }}
+            </div>
+            {% endfor %}
+        </div>
+        {% endif %}
+
+        <form method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            <div class="mb-3">
+                <label for="username" class="form-label">Nome de Usuário</label>
+                <input type="text" class="form-control" id="username" name="username" required>
+            </div>
+            <div class="mb-3">
+                <label for="telefone" class="form-label">Telefone</label>
+                <input type="text" class="form-control" id="telefone" name="telefone" required>
+            </div>
+            <div class="mb-3">
+                <label for="dob" class="form-label">Data de Nascimento</label>
+                <input type="date" class="form-control" id="dob" name="dob" required>
+            </div>
+            <div class="mb-3">
+                <label for="email" class="form-label">Email</label>
+                <input type="email" class="form-control" id="email" name="email" required>
+            </div>
+            <div class="mb-3">
+                <label for="password" class="form-label">Senha</label>
+                <input type="password" class="form-control" id="password" name="password" required>
+            </div>
+            <div class="mb-3">
+                <label for="confirm_password" class="form-label">Confirmar Senha</label>
+                <input type="password" class="form-control" id="confirm_password" name="confirm_password" required>
+            </div>
+            <div class="mb-3">
+                <label for="foto_perfil" class="form-label">Foto de Perfil (opcional)</label>
+                <input type="file" class="form-control" id="foto_perfil" name="foto_perfil">
+            </div>
+            <button type="submit" class="btn btn-primary">Criar Conta</button>
+        </form>
+
+        <div class="footer-text">
+            <p style="color: #333;">Já tem uma conta? <a href="/index/">Faça login</a></p>
+        </div>
+    </div>
+
+</body>
+</html>
